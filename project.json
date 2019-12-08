@@ -1,0 +1,146 @@
+{
+    "name": "BJS_VR_proto",
+    "components": [
+        {
+            "name": "/Main",
+            "graph": {
+                "connections": [
+                    {
+                        "fromId": "86b2a1ec-e2a0-3c99-d37e-602c0858c7a3",
+                        "fromProperty": "domElement",
+                        "toId": "34c02a8f-4e31-8cb8-93c6-6fa98261dd17",
+                        "toProperty": "domElement"
+                    },
+                    {
+                        "fromId": "87e3aca0-f741-ced3-61e3-72c01a487716",
+                        "fromProperty": "loaded",
+                        "toId": "34c02a8f-4e31-8cb8-93c6-6fa98261dd17",
+                        "toProperty": "scriptLoaded"
+                    }
+                ],
+                "roots": [
+                    {
+                        "id": "2d3ccd33-f1ef-2dc5-3e1a-ca9d61cd222b",
+                        "type": "Group",
+                        "label": "Root",
+                        "x": 261,
+                        "y": 169,
+                        "parameters": {
+                            "fill": "parent"
+                        },
+                        "ports": [],
+                        "dynamicports": [],
+                        "children": [
+                            {
+                                "id": "fa90ea16-1232-0437-deea-5dd6263d8247",
+                                "type": "Rectangle",
+                                "label": "Background",
+                                "x": 20,
+                                "y": 61,
+                                "parameters": {},
+                                "ports": [],
+                                "dynamicports": [],
+                                "children": []
+                            },
+                            {
+                                "id": "86b2a1ec-e2a0-3c99-d37e-602c0858c7a3",
+                                "type": "HTML Content",
+                                "x": 20,
+                                "y": 122,
+                                "parameters": {
+                                    "html": "<!DOCTYPE html>\n<canvas id=\"canvas\" width=\"550\" height=\"1110\"></canvas>"
+                                },
+                                "ports": [],
+                                "dynamicports": [],
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "id": "87e3aca0-f741-ced3-61e3-72c01a487716",
+                        "type": "Script Downloader",
+                        "x": -110.25206370702321,
+                        "y": 127.45610979448267,
+                        "parameters": {
+                            "input 0": "https://preview.babylonjs.com/babylon.js",
+                            "input 1": "https://preview.babylonjs.com/loaders/babylonjs.loaders.min.js",
+                            "input 2": "https://code.jquery.com/pep/0.4.3/pep.js"
+                        },
+                        "ports": [],
+                        "dynamicports": [],
+                        "children": []
+                    },
+                    {
+                        "id": "34c02a8f-4e31-8cb8-93c6-6fa98261dd17",
+                        "type": "Javascript2",
+                        "x": 9.25568733807171,
+                        "y": 383.3228306788743,
+                        "parameters": {
+                            "code": "define({\n    inputs: {\n        scriptLoaded: \"string\",\n         domElement: \"domelement\",\n         filePath:\"string\",\n         fileName:\"string\",\n         scale:\"string\"\n        \n    },\n    outputs: {\n\n    },\n    destroy: function(inputs, outputs) {\n\n    },\n    setup: function(inputs, outputs) {\n\n    },\n    run: function(inputs, outputs, changedInputs) {\n        if (!inputs.scriptLoaded) {\n            return;\n        }\n        // Ref from :https://doc.babylonjs.com/babylon101/first\n        var canvas = document.getElementById(\"canvas\");\n        var engine = new BABYLON.Engine(canvas, true); \n        var createScene = function () {\n\n            // Create the scene space\n            var scene = new BABYLON.Scene(engine);\n\n            // Add a camera to the scene and attach it to the canvas\n           // var camera = new BABYLON.ArcRotateCamera(\"Camera\", Math.PI / 2, Math.PI / 2, 2, new BABYLON.Vector3(-5,3,50), scene);\n            var camera = new BABYLON.ArcRotateCamera(\"Camera\", 0, 0, 10, new BABYLON.Vector3(0, 0, 0), scene);\n             camera.setPosition(new BABYLON.Vector3(0, 0, 7));\n            camera.attachControl(canvas, true);\n\n            // Add lights to the scene\n            var light1 = new BABYLON.HemisphericLight(\"light1\", new BABYLON.Vector3(1, 1, 0), scene);\n            var light2 = new BABYLON.PointLight(\"light2\", new BABYLON.Vector3(0, 1, -1), scene);\n\n            // Add and manipulate meshes in the scene\n           // var sphere = BABYLON.MeshBuilder.CreateSphere(\"sphere\", {diameter:2}, scene);\n\n            //BABYLON.SceneLoader.ImportMeshAsync(\"\", \"https://models.babylonjs.com/\", \"haunted_house.glb\", scene).then(function(result) {\n            BABYLON.SceneLoader.ImportMeshAsync(\"\", inputs.filePath, inputs.fileName, scene).then(function(result) {\n                \n                result.meshes[0].position = new BABYLON.Vector3(0, 0, 0);\n                result.meshes[0].scaling = new BABYLON.Vector3(inputs.scale,inputs.scale,inputs.scale);\n              //  result[0].position = new BABYLON.Vector3(-3,2,3);\n            });\n\n            return scene;\n        };\n       var scene = createScene(); //Call the createScene function\n       // scene.debugLayer.show();\n        // Register a render loop to repeatedly render the scene\n        engine.runRenderLoop(function () { \n                scene.render();\n        });\n\n        // Watch for browser/canvas resize events\n        window.addEventListener(\"resize\", function () { \n                engine.resize();\n        });\n    }\n});",
+                            "filePath": "./model/showglobe/",
+                            "fileName": "model.gltf",
+                            "scale": 8
+                        },
+                        "ports": [],
+                        "dynamicports": [
+                            {
+                                "name": "scriptLoaded",
+                                "plug": "input",
+                                "type": {
+                                    "name": "string"
+                                },
+                                "group": "Inputs",
+                                "index": 2
+                            },
+                            {
+                                "name": "domElement",
+                                "plug": "input",
+                                "type": {
+                                    "name": "domelement"
+                                },
+                                "group": "Inputs",
+                                "index": 3
+                            },
+                            {
+                                "name": "filePath",
+                                "plug": "input",
+                                "type": {
+                                    "name": "string"
+                                },
+                                "group": "Inputs",
+                                "index": 4
+                            },
+                            {
+                                "name": "fileName",
+                                "plug": "input",
+                                "type": {
+                                    "name": "string"
+                                },
+                                "group": "Inputs",
+                                "index": 5
+                            },
+                            {
+                                "name": "scale",
+                                "plug": "input",
+                                "type": {
+                                    "name": "string"
+                                },
+                                "group": "Inputs",
+                                "index": 6
+                            }
+                        ],
+                        "children": []
+                    }
+                ]
+            }
+        }
+    ],
+    "settings": {
+        "devices": "Default Device",
+        "Default Device.fillMode": "aspectFit",
+        "Default Device.canvasWidth": 1080,
+        "Default Device.canvasHeight": 1920
+    },
+    "rootNodeId": "2d3ccd33-f1ef-2dc5-3e1a-ca9d61cd222b",
+    "version": "1"
+}
