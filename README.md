@@ -26,4 +26,4 @@ Ex:
 filePath: ./model/showglobe/ . 
 fileName: model.gltf
 
-5. Check preview or access http://<your PC IP>:<port number>
+5. Check preview or access http:// ``` <your PC IP> ``` : ```<port number>```
